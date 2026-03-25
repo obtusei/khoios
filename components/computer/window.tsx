@@ -112,7 +112,9 @@ export default function Window({
         {win.topBar?.custom ? (
           win.topBar.custom
         ) : (
-          <span className="text-sm">{win.topBar?.title ?? win.title}</span>
+          <span className="text-sm selection:bg-transparent font-semibold text-muted-foreground">
+            {win.topBar?.title ?? win.title}
+          </span>
         )}
       </div>
 

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import AppleDockDemo from "@/components/computer/dock";
 import TopMenu from "@/components/computer/menu-bar";
 import LockScreen from "@/components/computer/lock-screen";
+import BootScreen from "@/components/computer/boot-screen";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -45,6 +46,7 @@ export default function RootLayout({
         {children}
         <AppleDockDemo />
         <LockScreen />
+        <BootScreen />
       </body>
     </html>
   );

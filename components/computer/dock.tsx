@@ -214,7 +214,7 @@ export default function Dock() {
 
   return (
     <div className="">
-      <div className="flex items-center fixed bottom-4 inset-x-0 justify-center">
+      <div className="flex items-center fixed bottom-4 z-30 inset-x-0 justify-center">
         <div className="relative  h-fit">
           <AppleDock
             className="bg-background/40 backdrop-blur-2xl"

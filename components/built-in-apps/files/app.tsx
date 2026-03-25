@@ -99,7 +99,10 @@ export default function FilesApp() {
     <div className="flex h-full">
       <div className="p-2">
         <div className="w-52  overflow-y-auto bg-muted/50 h-full space-y-2 rounded-lg p-2">
-          <Accordion type="multiple">
+          <Accordion
+            defaultValue={sidebar.map((item) => item.title)}
+            type="multiple"
+          >
             {sidebar.map((section) => (
               <AccordionItem
                 defaultChecked
