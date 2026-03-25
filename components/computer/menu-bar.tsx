@@ -22,7 +22,7 @@ type Props = {};
 
 export default function TopMenu({}: Props) {
   return (
-    <div className="w-full inset-x-0 fixed top-0 z-50 border-0 flex justify-between pr-1 items-center rounded-none bg-background/40 backdrop-blur-md">
+    <div className="w-full inset-x-0 fixed top-0 z-10 border-0 flex justify-between pr-1 items-center rounded-none bg-background/40 backdrop-blur-md">
       <Menubar className="border-none ">
         <MenubarMenu>
           <MenubarTrigger>

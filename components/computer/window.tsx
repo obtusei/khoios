@@ -1,5 +1,6 @@
 import { useComputerStore } from "@/store/computer.store";
 import { App } from "@/types/app";
+import TrafficLights from "./traffic";
 
 export default function Window({
   win,
@@ -91,7 +92,7 @@ export default function Window({
   return (
     <div
       onMouseDown={bringToFront}
-      className="absolute bg-white rounded-md shadow-xl overflow-hidden flex flex-col"
+      className="absolute bg-white rounded-xl shadow-xl overflow-hidden flex flex-col"
       style={{
         width: win.maximized ? "100%" : win.width,
         height: win.maximized ? "100%" : win.height,
@@ -104,43 +105,15 @@ export default function Window({
       {/* TITLE BAR */}
       <div
         onMouseDown={startDrag}
-        className="flex items-center justify-between px-2 py-1 bg-gray-200 cursor-move"
+        onDoubleClick={startResize}
+        className="flex items-center justify-center relative px-2 py-2 cursor-move"
       >
-        <span className="text-sm">{win.title}</span>
-
-        <div className="flex gap-2">
-          {/* minimize */}
-          <button
-            onClick={() =>
-              updateApps((prev) =>
-                prev.map((w) =>
-                  w.id === win.id ? { ...w, minimized: true } : w,
-                ),
-              )
-            }
-            className="w-3 h-3 bg-yellow-400 rounded-full"
-          />
-
-          {/* maximize */}
-          <button
-            onClick={() =>
-              updateApps((prev) =>
-                prev.map((w) =>
-                  w.id === win.id ? { ...w, maximized: !w.maximized } : w,
-                ),
-              )
-            }
-            className="w-3 h-3 bg-green-500 rounded-full"
-          />
-
-          {/* close */}
-          <button
-            onClick={() =>
-              updateApps((prev) => prev.filter((w) => w.id !== win.id))
-            }
-            className="w-3 h-3 bg-red-500 rounded-full"
-          />
-        </div>
+        <TrafficLights win={win} />
+        {win.topBar?.custom ? (
+          win.topBar.custom
+        ) : (
+          <span className="text-sm">{win.topBar?.title ?? win.title}</span>
+        )}
       </div>
 
       {/* CONTENT */}
@@ -150,7 +123,7 @@ export default function Window({
       {!win.maximized && (
         <div
           onMouseDown={startResize}
-          className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize bg-blue-500"
+          className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize hover:bg-blue-500/40"
         />
       )}
     </div>

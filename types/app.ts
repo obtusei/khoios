@@ -6,6 +6,10 @@ export type App = {
   title: string;
   icon: IconData;
   content: React.ReactNode;
+  topBar?: {
+    title?: string;
+    custom?: React.ReactNode;
+  };
   x: number;
   y: number;
   z: number;
