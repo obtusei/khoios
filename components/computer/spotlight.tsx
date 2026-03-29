@@ -45,7 +45,12 @@ export function SpotlightSearch() {
 
   return (
     <div className="flex flex-col gap-4">
-      <Button onClick={() => setOpen(true)} variant={"ghost"} size={"icon-sm"}>
+      <Button
+        onClick={() => setOpen(true)}
+        variant={"ghost"}
+        className="rounded-full"
+        size={"icon-sm"}
+      >
         <Search />
       </Button>
       <CommandDialog

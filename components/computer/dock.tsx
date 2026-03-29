@@ -1,6 +1,6 @@
 "use client";
 
-import React, { PropsWithChildren, useRef } from "react";
+import React, { PropsWithChildren, useEffect, useRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
   motion,
@@ -23,6 +23,9 @@ import {
 import { cn } from "@/lib/utils";
 import { useComputerStore } from "@/store/computer.store";
 import { ButtonGroupSeparator } from "../ui/button-group";
+import FilesApp from "../built-in-apps/files/app";
+import { FileApp } from "../built-in-apps/files";
+import { NoteApp } from "../built-in-apps/notes";
 
 export interface AppleDockProps extends VariantProps<typeof appleDockVariants> {
   className?: string;
@@ -40,7 +43,7 @@ const DEFAULT_DISTANCE = 140;
 const DEFAULT_DISABLEMAGNIFICATION = false;
 
 const appleDockVariants = cva(
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md",
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-xl border p-2 backdrop-blur-md",
 );
 
 const AppleDock = React.forwardRef<HTMLDivElement, AppleDockProps>(
@@ -164,54 +167,17 @@ const AppleDockIcon = ({
 AppleDockIcon.displayName = "AppleDockIcon";
 
 export default function Dock() {
-  type IconData = {
-    IconComponent: LucideIcon;
-    bgColor: string;
-    textColor: string;
-    label: string;
-  };
+  const { openApps, updateApps, dockApps, setDockApps } = useComputerStore(
+    (s) => s,
+  );
 
-  const dockIcons: IconData[] = [
-    {
-      IconComponent: Folder,
-      bgColor: "bg-blue-100",
-      textColor: "text-blue-500",
-      label: "Folder",
-    },
-    {
-      IconComponent: Search,
-      bgColor: "bg-orange-100",
-      textColor: "text-orange-400",
-      label: "Search",
-    },
-    {
-      IconComponent: Inbox,
-      bgColor: "bg-teal-100",
-      textColor: "text-teal-500",
-      label: "Inbox",
-    },
-    {
-      IconComponent: Settings,
-      bgColor: "bg-red-100",
-      textColor: "text-red-500",
-      label: "Settings",
-    },
-    {
-      IconComponent: Command,
-      bgColor: "bg-amber-100",
-      textColor: "text-amber-500",
-      label: "Command",
-    },
-    {
-      IconComponent: Compass,
-      bgColor: "bg-sky-100",
-      textColor: "text-sky-500",
-      label: "Compass",
-    },
-  ];
+  useEffect(() => {
+    setDockApps([FileApp, NoteApp]);
+  }, []);
 
-  const { openApps, updateApps, dockApps } = useComputerStore((s) => s);
-
+  const allApps = [...dockApps, ...openApps].filter(
+    (app, index, self) => index === self.findIndex((a) => a.id === app.id),
+  );
   return (
     <div className="">
       <div className="flex items-center fixed bottom-4 z-30 inset-x-0 justify-center">
@@ -221,30 +187,19 @@ export default function Dock() {
             iconMagnification={60}
             iconDistance={140}
           >
-            {dockIcons.map(({ IconComponent, bgColor, textColor, label }) => (
+            {allApps.map((app) => (
               <AppleDockIcon
-                key={label}
-                className={cn(bgColor, textColor)}
-                aria-label={label}
+                key={app.id}
+                className={cn(app.icon.bgColor, app.icon.textColor)}
+                aria-label={app.name}
+                onClick={() => {
+                  updateApps((prev) => [...prev, app]);
+                }}
               >
-                <IconComponent className="w-6 h-6" />
+                <app.icon.IconComponent className="w-6 h-6" />
               </AppleDockIcon>
             ))}
-            {openApps.length > 0 && <ButtonGroupSeparator className="mx-1" />}
-            {openApps.map((app) => (
-              <div
-                key={app.id}
-                className="flex flex-col gap-0 items-center justify-center"
-              >
-                <AppleDockIcon
-                  className={cn(app.icon.bgColor, app.icon.textColor)}
-                  aria-label="Open Apps Indicator"
-                >
-                  <app.icon.IconComponent className="w-6 h-6" />
-                </AppleDockIcon>
-                <Dot className="w-4 h-4 " />
-              </div>
-            ))}
+            {openApps.length > 0}
           </AppleDock>
         </div>
       </div>
