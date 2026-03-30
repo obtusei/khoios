@@ -20,9 +20,9 @@ export default function Desktop() {
   const { openApps, updateApps } = useComputerStore((s) => s);
   const apps: App[] = [
     {
-      id: "photopea",
-      name: "Photopea",
-      title: "Photopea",
+      id: "folder_1",
+      name: "Folder 1",
+      title: "Folder 1",
       content: (
         <iframe src="https://www.photopea.com/" className="w-full h-full" />
       ),
@@ -34,34 +34,8 @@ export default function Desktop() {
       menu: [],
       minimized: false,
       maximized: false,
-      icon: {
-        IconComponent: Folder,
-        bgColor: "bg-blue-100",
-        textColor: "text-blue-500",
-        label: "Folder",
-      },
+      icon: "/folder.webp",
     },
-    {
-      id: "google",
-      name: "Google",
-      title: "Google",
-      content: <iframe src="https://google.com" className="w-full h-full" />,
-      x: Math.random() * 200,
-      y: Math.random() * 200,
-      width: 800,
-      height: 600,
-      z: 1,
-      menu: [],
-      minimized: false,
-      maximized: false,
-      icon: {
-        IconComponent: Settings,
-        bgColor: "bg-blue-100",
-        textColor: "text-blue-500",
-        label: "Folder",
-      },
-    },
-    FileApp,
   ];
   // const openApp = (app: App) => {
   //   setWindows((prev) => [
@@ -86,7 +60,7 @@ export default function Desktop() {
       <Background />
 
       {/* 🖥 Desktop Icons */}
-      <div className="p-4 flex flex-col gap-4 w-24">
+      <div className="p-4 flex flex-col gap-4 mt-10 w-fit">
         {apps.map((app) => (
           <DesktopIcon key={app.id} app={app} />
         ))}

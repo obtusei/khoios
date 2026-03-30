@@ -20,10 +20,5 @@ export const NoteApp: App = {
   topBar: {
     custom: <Menu />,
   },
-  icon: {
-    IconComponent: Notebook,
-    bgColor: "bg-yellow-100",
-    textColor: "text-yellow-500",
-    label: "Notebook",
-  },
+  icon: "/notes.webp",
 };

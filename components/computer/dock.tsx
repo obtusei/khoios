@@ -26,6 +26,12 @@ import { ButtonGroupSeparator } from "../ui/button-group";
 import FilesApp from "../built-in-apps/files/app";
 import { FileApp } from "../built-in-apps/files";
 import { NoteApp } from "../built-in-apps/notes";
+import { WeatherApp } from "../built-in-apps/weather";
+import { BookApp } from "../built-in-apps/books";
+import { SettingsApp } from "../built-in-apps/settings";
+import { ReminderApp } from "../built-in-apps/reminder";
+import { PodcastsApp } from "../built-in-apps/podcasts";
+import { PhotosApp } from "../built-in-apps/photos";
 
 export interface AppleDockProps extends VariantProps<typeof appleDockVariants> {
   className?: string;
@@ -37,13 +43,13 @@ export interface AppleDockProps extends VariantProps<typeof appleDockVariants> {
   children: React.ReactNode;
 }
 
-const DEFAULT_SIZE = 40;
-const DEFAULT_MAGNIFICATION = 60;
-const DEFAULT_DISTANCE = 140;
+const DEFAULT_SIZE = 68;
+const DEFAULT_MAGNIFICATION = 84;
+const DEFAULT_DISTANCE = 10;
 const DEFAULT_DISABLEMAGNIFICATION = false;
 
 const appleDockVariants = cva(
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-xl border p-2 backdrop-blur-md",
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex w-max items-center justify-center gap-2 rounded-xl border p-0 backdrop-blur-md",
 );
 
 const AppleDock = React.forwardRef<HTMLDivElement, AppleDockProps>(
@@ -106,12 +112,13 @@ export interface AppleDockIconProps extends Omit<
   "children"
 > {
   size?: number;
+  src?: string;
   magnification?: number;
   disableMagnification?: boolean;
   distance?: number;
   mouseX?: MotionValue<number>;
   className?: string;
-  children?: React.ReactNode;
+  alt?: string;
   props?: PropsWithChildren;
 }
 
@@ -121,8 +128,8 @@ const AppleDockIcon = ({
   disableMagnification,
   distance = DEFAULT_DISTANCE,
   mouseX,
-  className,
-  children,
+  alt,
+  src,
   ...props
 }: AppleDockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -151,16 +158,18 @@ const AppleDockIcon = ({
   return (
     <motion.div
       ref={ref}
-      style={{ width: scaleSize, height: scaleSize, padding }}
+      style={{
+        width: scaleSize,
+        height: scaleSize,
+        backgroundImage: `url(${src})`,
+      }}
+      // src={src}
       className={cn(
-        "flex aspect-square cursor-pointer items-center justify-center rounded-3xl",
+        " aspect-square object-contain bg-cover p-2 cursor-pointer",
         disableMagnification && "hover:bg-muted-foreground transition-colors",
-        className,
       )}
       {...props}
-    >
-      <div>{children}</div>
-    </motion.div>
+    />
   );
 };
 
@@ -172,7 +181,16 @@ export default function Dock() {
   );
 
   useEffect(() => {
-    setDockApps([FileApp, NoteApp]);
+    setDockApps([
+      FileApp,
+      NoteApp,
+      WeatherApp,
+      BookApp,
+      SettingsApp,
+      ReminderApp,
+      PodcastsApp,
+      PhotosApp,
+    ]);
   }, []);
 
   const allApps = [...dockApps, ...openApps].filter(
@@ -183,21 +201,20 @@ export default function Dock() {
       <div className="flex items-center fixed bottom-4 z-30 inset-x-0 justify-center">
         <div className="relative  h-fit">
           <AppleDock
-            className="bg-background/40 backdrop-blur-2xl"
-            iconMagnification={60}
-            iconDistance={140}
+            className="bg-background/40 h-fit rounded-3xl p-2 backdrop-blur-2xl"
+            iconMagnification={84}
+            iconDistance={5}
           >
             {allApps.map((app) => (
               <AppleDockIcon
                 key={app.id}
-                className={cn(app.icon.bgColor, app.icon.textColor)}
                 aria-label={app.name}
                 onClick={() => {
                   updateApps((prev) => [...prev, app]);
                 }}
-              >
-                <app.icon.IconComponent className="w-6 h-6" />
-              </AppleDockIcon>
+                src={app.icon}
+                alt={app.name}
+              />
             ))}
             {openApps.length > 0}
           </AppleDock>

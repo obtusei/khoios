@@ -4,7 +4,7 @@ export type App = {
   id: string;
   name: string;
   title: string;
-  icon: IconData;
+  icon: string;
   content: React.ReactNode;
   topBar?: {
     title?: string;
@@ -26,11 +26,4 @@ export type App = {
       onClick: () => void;
     }[];
   }[];
-};
-
-type IconData = {
-  IconComponent: LucideIcon;
-  bgColor: string;
-  textColor: string;
-  label: string;
 };

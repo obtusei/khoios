@@ -1,3 +1,4 @@
+"use client";
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -14,14 +15,32 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Ghost, Search, Settings2, Wifi } from "lucide-react";
+import { Fullscreen, Ghost, Search, Settings2, Wifi } from "lucide-react";
 import { Button } from "../ui/button";
 import { SpotlightSearch } from "./spotlight";
 import ControlCenter from "./control-center";
+import { useState } from "react";
 
 type Props = {};
 
 export default function TopMenu({}: Props) {
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      // Request fullscreen for the referenced element
+      setIsFullScreen(true);
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`,
+        );
+      });
+    } else {
+      setIsFullScreen(false);
+      // Exit fullscreen if currently in fullscreen mode
+      document.exitFullscreen();
+    }
+  };
+
   return (
     <div className="w-full inset-x-0  right-10 rounded-full fixed top-0 z-10 border-0 p-1 ">
       <div className="flex justify-between bg-background/40 backdrop-blur-md rounded-full pr-0.5">
@@ -177,6 +196,7 @@ export default function TopMenu({}: Props) {
           </Button>
           <SpotlightSearch />
           <ControlCenter />
+
           <Button variant={"ghost"} className="rounded-full" size={"sm"}>
             {new Date().toLocaleString("en-GB", {
               month: "long",
@@ -185,6 +205,14 @@ export default function TopMenu({}: Props) {
               hour: "2-digit",
               minute: "2-digit",
             })}
+          </Button>
+          <Button
+            variant={isFullScreen ? "default" : "ghost"}
+            className="rounded-full"
+            onClick={toggleFullScreen}
+            size={"icon-sm"}
+          >
+            <Fullscreen />
           </Button>
         </div>
       </div>

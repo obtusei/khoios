@@ -1,4 +1,7 @@
+"use client";
+import { useEffect } from "react";
 import Grainient from "../Grainient";
+import { Button } from "../ui/button";
 
 type Props = {};
 

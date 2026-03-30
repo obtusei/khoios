@@ -41,13 +41,7 @@ export default function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
-        <TopMenu />
-        {children}
-        <AppleDockDemo />
-        <LockScreen />
-        <BootScreen />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

@@ -14,10 +14,5 @@ export const FileApp = {
   menu: [],
   minimized: false,
   maximized: false,
-  icon: {
-    IconComponent: Folder,
-    bgColor: "bg-blue-100",
-    textColor: "text-blue-500",
-    label: "Folder",
-  },
+  icon: "/finder.webp",
 };

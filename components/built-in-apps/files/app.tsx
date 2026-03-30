@@ -135,11 +135,11 @@ export default function FilesApp() {
         <SortableContent className="grid grid-cols-4">
           {items.map((item) => (
             <SortableItem
-              className="flex flex-col items-center p-4 hover:bg-muted h-fit rounded cursor-pointer"
+              className="flex flex-col items-center p-2 hover:bg-muted gap-2 h-fit rounded cursor-pointer"
               key={item}
               value={item}
             >
-              <Folder className="fill-blue-400 stroke-0 size-12" />
+              <img src="/folder.webp" alt="folder" className="w-full h-16" />
               <p className="text-center selection:bg-transparentx text-xs">
                 {item}
               </p>

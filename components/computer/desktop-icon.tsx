@@ -20,11 +20,9 @@ export default function DesktopIcon({ app }: { app: App }) {
   return (
     <div
       onClick={handleClick}
-      className="text-white text-center cursor-pointer select-none"
+      className="text-white text-center flex gap-2 hover:bg-white/10 p-1 rounded items-center flex-col cursor-pointer select-none"
     >
-      <div className="w-16 h-16 bg-white/30 flex items-center justify-center rounded mb-1">
-        <app.icon.IconComponent className="w-6 h-6 m-auto" />
-      </div>
+      <img src={app.icon} alt={app.name} className="w-fit aspect-auto h-16" />
       <span className="text-sm">{app.title}</span>
     </div>
   );
